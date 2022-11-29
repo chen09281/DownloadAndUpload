@@ -66,6 +66,29 @@ public class DownLoadController {
         return result.toString();
     }
 
+    @ResponseBody
+    @PostMapping("/uploadFiles")
+    public String fileUploads(@RequestParam("files") MultipartFile files[]) throws JSONException{
+        JSONObject result = new JSONObject();
+
+        for (int i=0;i<files.length;i++){
+            String filename = files[i].getOriginalFilename();
+            File dest = new File(uploadFilePath + File.separator + filename);
+            if (!dest.getParentFile().exists()){
+                dest.getParentFile().mkdirs();
+            }
+            try {
+                files[i].transferTo(dest);
+            } catch (Exception e) {
+                log.error("发生错误:{}",e);
+                result.put("error",e.getMessage());
+                return result.toString();
+            }
+        }
+        result.put("success","文件上传成功!");
+        return result.toString();
+    }
+
     /**
      * 下载到服务器方法
      * @param response
@@ -98,6 +121,13 @@ public class DownLoadController {
         return result.toString();
     }
 
+    /**
+     * 删除文件
+     * @param resp
+     * @param fileName
+     * @return
+     * @throws JSONException
+     */
     @ResponseBody
     @PostMapping
     public String deleteFile(HttpServletResponse resp,@RequestParam("fileName") String fileName) throws JSONException{
