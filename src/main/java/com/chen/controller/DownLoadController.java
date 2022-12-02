@@ -1,4 +1,4 @@
-package com.controller;
+package com.chen.controller;
 
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSONException;
@@ -8,14 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
 @RestController
 @RequestMapping("/file")
-@CrossOrigin(origins = "*")
 @Slf4j
 public class DownLoadController {
     @Value("${file.upload.dir}")
@@ -129,7 +127,7 @@ public class DownLoadController {
      * @throws JSONException
      */
     @ResponseBody
-    @PostMapping
+    @PostMapping("/delete")
     public String deleteFile(HttpServletResponse resp,@RequestParam("fileName") String fileName) throws JSONException{
         JSONObject result = new JSONObject();
 
@@ -154,6 +152,26 @@ public class DownLoadController {
             return result.toString();
         }
         result.put("success","删除成功");
+        return result.toString();
+    }
+
+    @ResponseBody
+    @GetMapping("/test")
+    public String test() throws JSONException{
+        JSONObject result = new JSONObject();
+        File file = new File(uploadFilePath+File.separator);
+        File[] fs = file.listFiles();
+        for (File f:fs){
+            if (f.isDirectory()){
+                log.error("文件夹是空的");
+                result.put("error",f.toString());
+                return result.toString();
+            }
+            for (int i = 0; i<fs.length; i++) {
+                String removeStr = "d:\\test\\";
+                result.put(String.valueOf(i),f.toString().replace(removeStr,""));
+            }
+        }
         return result.toString();
     }
 }
