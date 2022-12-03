@@ -23,4 +23,7 @@ public interface UserMapper {
 
     @Select("select * from user where user_name = #{user.userName}")
     User queryByUserName(@Param("user") User user);
+
+    @Update("update user set user_name=#{user.userName},user_password = #{user.userPassword},user_phone = #{user.userPhone},user_email = #{user.userEmail} where user_id = #{user.userId}")
+    void editUser(@Param("user") User user);
 }

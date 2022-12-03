@@ -34,23 +34,11 @@ public class UserController {
     @GetMapping("/addUser")
     @ResponseBody
     public String addUser(@RequestBody User user){
-        System.out.println(user.getUserName());
         if (userService.queryByUserName(user) != null){
             return "注册失败，用户名已存在";
         }
         userService.addUser(user);
         return "添加成功";
-    }
-
-    /**
-     * 通过id查询用户
-     * @param id
-     * @return user
-     */
-    @GetMapping("/select")
-    @ResponseBody
-    public User queryById(int id){
-        return userService.queryById(id);
     }
 
     /**
@@ -70,5 +58,12 @@ public class UserController {
             break;
         }
         return "成功";
+    }
+
+    @GetMapping("/edit")
+    @ResponseBody
+    public String editUser(@RequestBody User user){
+        userService.editUser(user);
+        return "修改成功";
     }
 }

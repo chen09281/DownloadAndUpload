@@ -32,4 +32,10 @@ public class UserService {
     public User queryByUserName(User user) {
         return userMapper.queryByUserName(user);
     }
+
+    public void editUser(User user) {
+        userMapper.editUser(user);
+    }
+
+
 }
