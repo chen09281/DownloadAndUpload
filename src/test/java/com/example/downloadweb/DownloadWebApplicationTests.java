@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
+import java.util.List;
 
 @SpringBootTest
 @MapperScan("com.chen.mapper")
@@ -32,8 +33,8 @@ class DownloadWebApplicationTests {
 
     @Test
     void mysql(){
-        User user = userMapper.selectAll();
-        System.out.println(user);
+        List<User> users = userMapper.selectAll();
+        System.out.println(users);
     }
 
 }

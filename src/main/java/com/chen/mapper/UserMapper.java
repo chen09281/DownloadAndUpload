@@ -1,17 +1,26 @@
 package com.chen.mapper;
 
 import com.chen.dao.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    
-    @Select("select * from user")
-    User selectAll();
+
 
     @Insert("insert into user (user_id,user_name,user_password,user_phone,user_email) values (null,#{user.userName},#{user.userPassword},#{user.userPhone},#{user.userEmail})")
     void addUser(@Param("user") User user);
+
+    @Select("select * from user where user_id = #{id}")
+    User queryById(@Param("id") int id);
+
+    @Delete("delete from user where user_id=#{id}")
+    void deleteById(int id);
+
+    @Select("select * from user")
+    List<User> selectAll();
+
+    @Select("select * from user where user_name = #{user.userName}")
+    User queryByUserName(@Param("user") User user);
 }
